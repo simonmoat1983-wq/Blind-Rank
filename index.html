@@ -1,42 +1,85 @@
 <!DOCTYPE html>
 <html>
 <head>
+<meta charset="UTF-8">
 <title>Blind Rank Game</title>
+
 <style>
+
 body{
-font-family: Arial;
+font-family: Arial, sans-serif;
+background: linear-gradient(135deg,#1e3c72,#2a5298);
+color:white;
 text-align:center;
-background:#f4f4f4;
+margin:0;
+padding:30px;
 }
 
-#name{
-font-size:32px;
-margin:30px;
+h1{
+margin-bottom:10px;
 }
 
-.rank-btn{
-padding:10px 20px;
-margin:5px;
-font-size:16px;
+#card{
+background:white;
+color:black;
+padding:40px;
+border-radius:12px;
+font-size:28px;
+margin:20px auto;
+width:300px;
+box-shadow:0 10px 25px rgba(0,0,0,0.3);
+}
+
+#rankings{
+display:grid;
+grid-template-columns:repeat(2,150px);
+gap:10px;
+justify-content:center;
+margin-top:20px;
+}
+
+.slot{
+background:rgba(255,255,255,0.15);
+border:2px dashed rgba(255,255,255,0.5);
+padding:15px;
+border-radius:10px;
 cursor:pointer;
 }
 
-#results{
-margin-top:30px;
+.slot.filled{
+background:#00c896;
+border:none;
 }
+
+#progress{
+margin-top:15px;
+opacity:0.8;
+}
+
+button{
+margin-top:20px;
+padding:10px 20px;
+font-size:16px;
+border:none;
+border-radius:8px;
+cursor:pointer;
+}
+
 </style>
 </head>
 
 <body>
 
 <h1>Blind Rank Game</h1>
-<p>Place each name into a ranking before seeing the next one.</p>
+<p>Rank each name before seeing the next one</p>
 
-<div id="name"></div>
+<div id="card"></div>
 
-<div id="buttons"></div>
+<div id="rankings"></div>
 
-<div id="results"></div>
+<div id="progress"></div>
+
+<button onclick="restart()">Restart</button>
 
 <script>
 
@@ -53,52 +96,98 @@ let names = [
 "Person J"
 ];
 
-let shuffled = names.sort(()=>Math.random()-0.5);
+let shuffled = [];
 let current = 0;
 let rankings = {};
 
+function shuffle(array){
+return array.sort(()=>Math.random()-0.5);
+}
+
+function start(){
+
+shuffled = shuffle([...names]);
+current = 0;
+rankings = {};
+
+renderSlots();
+showName();
+}
+
+function renderSlots(){
+
+let html="";
+
+for(let i=1;i<=names.length;i++){
+
+html+=`<div class="slot" id="slot${i}" onclick="rank(${i})">
+${i}
+</div>`
+
+}
+
+document.getElementById("rankings").innerHTML = html;
+
+}
+
 function showName(){
+
 if(current >= shuffled.length){
+
 showResults();
 return;
+
 }
 
-document.getElementById("name").innerText = shuffled[current];
+document.getElementById("card").innerText = shuffled[current];
 
-let btns="";
-for(let i=1;i<=10;i++){
-if(!Object.values(rankings).includes(i)){
-btns += `<button class="rank-btn" onclick="rank(${i})">${i}</button>`;
-}
+document.getElementById("progress").innerText =
+`Name ${current+1} of ${names.length}`;
+
 }
 
-document.getElementById("buttons").innerHTML = btns;
-}
+function rank(position){
 
-function rank(num){
-rankings[shuffled[current]] = num;
+if(rankings[position]) return;
+
+let name = shuffled[current];
+
+rankings[position] = name;
+
+let slot = document.getElementById("slot"+position);
+
+slot.classList.add("filled");
+slot.innerText = position + ". " + name;
+
 current++;
+
 showName();
+
 }
 
 function showResults(){
 
-let resultHTML="<h2>Your Rankings</h2><ol>";
+document.getElementById("card").innerText = "Final Ranking";
 
-let sorted = Object.entries(rankings).sort((a,b)=>a[1]-b[1]);
+let slots = document.querySelectorAll(".slot");
 
-sorted.forEach(x=>{
-resultHTML += `<li>${x[0]}</li>`;
+slots.forEach((slot,i)=>{
+
+let pos = i+1;
+
+slot.innerText = pos + ". " + rankings[pos];
+
 });
 
-resultHTML+="</ol>";
+document.getElementById("progress").innerText = "Finished";
 
-document.getElementById("name").innerHTML="";
-document.getElementById("buttons").innerHTML="";
-document.getElementById("results").innerHTML=resultHTML;
 }
 
-showName();
+function restart(){
+start();
+}
+
+start();
 
 </script>
 
