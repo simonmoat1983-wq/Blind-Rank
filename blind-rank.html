@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Blind Rank Game</title>
+<style>
+body{
+font-family: Arial;
+text-align:center;
+background:#f4f4f4;
+}
+
+#name{
+font-size:32px;
+margin:30px;
+}
+
+.rank-btn{
+padding:10px 20px;
+margin:5px;
+font-size:16px;
+cursor:pointer;
+}
+
+#results{
+margin-top:30px;
+}
+</style>
+</head>
+
+<body>
+
+<h1>Blind Rank Game</h1>
+<p>Place each name into a ranking before seeing the next one.</p>
+
+<div id="name"></div>
+
+<div id="buttons"></div>
+
+<div id="results"></div>
+
+<script>
+
+let names = [
+"Person A",
+"Person B",
+"Person C",
+"Person D",
+"Person E",
+"Person F",
+"Person G",
+"Person H",
+"Person I",
+"Person J"
+];
+
+let shuffled = names.sort(()=>Math.random()-0.5);
+let current = 0;
+let rankings = {};
+
+function showName(){
+if(current >= shuffled.length){
+showResults();
+return;
+}
+
+document.getElementById("name").innerText = shuffled[current];
+
+let btns="";
+for(let i=1;i<=10;i++){
+if(!Object.values(rankings).includes(i)){
+btns += `<button class="rank-btn" onclick="rank(${i})">${i}</button>`;
+}
+}
+
+document.getElementById("buttons").innerHTML = btns;
+}
+
+function rank(num){
+rankings[shuffled[current]] = num;
+current++;
+showName();
+}
+
+function showResults(){
+
+let resultHTML="<h2>Your Rankings</h2><ol>";
+
+let sorted = Object.entries(rankings).sort((a,b)=>a[1]-b[1]);
+
+sorted.forEach(x=>{
+resultHTML += `<li>${x[0]}</li>`;
+});
+
+resultHTML+="</ol>";
+
+document.getElementById("name").innerHTML="";
+document.getElementById("buttons").innerHTML="";
+document.getElementById("results").innerHTML=resultHTML;
+}
+
+showName();
+
+</script>
+
+</body>
+</html>
