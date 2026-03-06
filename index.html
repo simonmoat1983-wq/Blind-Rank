@@ -88,7 +88,6 @@ let allnames = [
 "David Jones",
 "Jack Cochrane",
 "Peter Clark",
-"Jack Cochrane",
 "James Reay",
 "Brian Johnson",
 "Kevin Stobbart",
@@ -100,118 +99,82 @@ let allnames = [
 "Alistair Bowman",
 "Ash Bughio",
 "Jamie Duprey",
-"Mark Lynskey"
-"Michael Fox"
-"Gordon Bird"
+"Mark Lynskey",
+"Michael Fox",
+"Gordon Bird",
 "Chris Fairbairn",
 "Alan Reddy",
 "Andrew Toes",
 "George Smith"
 ];
 
-  function getRandomNames(list, count) {
-
-let shuffled = [...list].sort(()=>Math.random()-0.5);
-
-return shuffled.slice(0,count);
-
-}
-  
+let names = []; // this will hold the 10 random names
 let shuffled = [];
 let current = 0;
 let rankings = {};
 
-function shuffle(array){
-return array.sort(()=>Math.random()-0.5);
+// pick random 10 names
+function getRandomNames(list, count) {
+  let shuffled = [...list].sort(() => Math.random() - 0.5);
+  return shuffled.slice(0, count);
 }
 
-function start(){
-
-names = getRandomNames(allNames,10);
-
-shuffled = [...names].sort(()=>Math.random()-0.5);
-
-current = 0;
-
-rankings = {};
-
-renderSlots();
-
-showName();
-
+function shuffle(array) {
+  return array.sort(() => Math.random() - 0.5);
 }
 
-function renderSlots(){
-
-let html="";
-
-for(let i=1;i<=names.length;i++){
-
-html+=`<div class="slot" id="slot${i}" onclick="rank(${i})">
-${i}
-</div>`
-
+function start() {
+  names = getRandomNames(allnames, 10); // use correct variable name
+  shuffled = [...names].sort(() => Math.random() - 0.5);
+  current = 0;
+  rankings = {};
+  renderSlots();
+  showName();
 }
 
-document.getElementById("rankings").innerHTML = html;
-
+function renderSlots() {
+  let html = "";
+  for (let i = 1; i <= names.length; i++) {
+    html += `<div class="slot" id="slot${i}" onclick="rank(${i})">
+    ${i}
+    </div>`;
+  }
+  document.getElementById("rankings").innerHTML = html;
 }
 
-function showName(){
-
-if(current >= shuffled.length){
-
-showResults();
-return;
-
+function showName() {
+  if (current >= shuffled.length) {
+    showResults();
+    return;
+  }
+  document.getElementById("card").innerText = shuffled[current];
+  document.getElementById("progress").innerText =
+    `Name ${current + 1} of ${names.length}`;
 }
 
-document.getElementById("card").innerText = shuffled[current];
-
-document.getElementById("progress").innerText =
-`Name ${current+1} of ${names.length}`;
-
+function rank(position) {
+  if (rankings[position]) return;
+  let name = shuffled[current];
+  rankings[position] = name;
+  let slot = document.getElementById("slot" + position);
+  slot.classList.add("filled");
+  slot.innerText = position + ". " + name;
+  current++;
+  showName();
 }
 
-function rank(position){
-
-if(rankings[position]) return;
-
-let name = shuffled[current];
-
-rankings[position] = name;
-
-let slot = document.getElementById("slot"+position);
-
-slot.classList.add("filled");
-slot.innerText = position + ". " + name;
-
-current++;
-
-showName();
-
+function showResults() {
+  document.getElementById("card").innerText = "Final Ranking";
+  let slots = document.querySelectorAll(".slot");
+  slots.forEach((slot, i) => {
+    let pos = i + 1;
+    slot.innerText = pos + ". " + rankings[pos];
+  });
+  document.getElementById("progress").innerText = "Finished";
 }
 
-function showResults(){
-
-document.getElementById("card").innerText = "Final Ranking";
-
-let slots = document.querySelectorAll(".slot");
-
-slots.forEach((slot,i)=>{
-
-let pos = i+1;
-
-slot.innerText = pos + ". " + rankings[pos];
-
-});
-
-document.getElementById("progress").innerText = "Finished";
-
-}
-
-function restart(){
-start();
+function restart() {
+  start();
 }
 
 start();
@@ -220,6 +183,7 @@ start();
 
 </body>
 </html>
+
 
 
 
