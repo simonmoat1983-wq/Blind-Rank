@@ -83,19 +83,40 @@ cursor:pointer;
 
 <script>
 
-let names = [
-"Thomas Haigh",
-"Poppy Arnold",
-"Vicky Gordon",
-"Chris Fine",
+let allnames = [
+"Matty Wright",
+"David Jones",
 "Jack Cochrane",
-"Summer Glen",
-"Sarah Jones",
-"Sian Harrison",
-"Simon Moat",
-"Judith Wilson"
+"Peter Clark",
+"Jack Cochrane",
+"James Reay",
+"Brian Johnson",
+"Kevin Stobbart",
+"Matthew Scott",
+"Bruce Walker",
+"Tony Jiminex",
+"Michael Storey",
+"Jack Raine",
+"Alistair Bowman",
+"Ash Bughio",
+"Jamie Duprey",
+"Mark Lynskey"
+"Michael Fox"
+"Gordon Bird"
+"Chris Fairbairn",
+"Alan Reddy",
+"Andrew Toes",
+"George Smith"
 ];
 
+  function getRandomNames(list, count) {
+
+let shuffled = [...list].sort(()=>Math.random()-0.5);
+
+return shuffled.slice(0,count);
+
+}
+  
 let shuffled = [];
 let current = 0;
 let rankings = {};
@@ -106,12 +127,18 @@ return array.sort(()=>Math.random()-0.5);
 
 function start(){
 
-shuffled = shuffle([...names]);
+names = getRandomNames(allNames,10);
+
+shuffled = [...names].sort(()=>Math.random()-0.5);
+
 current = 0;
+
 rankings = {};
 
 renderSlots();
+
 showName();
+
 }
 
 function renderSlots(){
@@ -193,5 +220,6 @@ start();
 
 </body>
 </html>
+
 
 
