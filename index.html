@@ -16,11 +16,7 @@ padding:30px;
 }
 
 h1{
-<div style="margin-bottom:20px;">
-<a href="?game=work"><button>Work Game</button></a>
-<a href="?game=football"><button>Football Game</button></a>
-<a href="?game=movies"><button>Movie Game</button></a>
-</div>
+margin-bottom:10px;
 }
 
 #card{
@@ -75,6 +71,12 @@ cursor:pointer;
 <body>
 
 <h1>Blind Rank RMS Hunks</h1>
+
+<div style="margin-bottom:20px;">
+<a href="?game=work"><button>Work Game</button></a>
+<a href="?game=football"><button>Football Game</button></a>
+<a href="?game=movies"><button>Movie Game</button></a>
+</div>
 <p>Rank each name of the sexy RMS men before seeing the next one</p>
 
 <div id="card"></div>
@@ -151,6 +153,9 @@ let params = new URLSearchParams(window.location.search);
 let gameType = params.get("game") || "work";
 let allnames = games[gameType] || games["work"];
 
+document.querySelector("h1").innerText =
+"Blind Rank " + gameType.charAt(0).toUpperCase() + gameType.slice(1);
+
 let names = []; // this will hold the 10 random names
 let shuffled = [];
 let current = 0;
@@ -226,6 +231,7 @@ start();
 
 </body>
 </html>
+
 
 
 
