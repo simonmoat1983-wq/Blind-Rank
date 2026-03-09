@@ -246,6 +246,14 @@ function shareResult() {
   title.innerText = "🏆 BLIND RANK RESULTS";
   tempDiv.appendChild(title);
 
+  // add game type under title
+  const subtitle = document.createElement("div");
+  subtitle.innerText = gameTitles[gameType] || gameType; // e.g., Football Legends
+  subtitle.style.fontSize = "18px";
+  subtitle.style.marginTop = "5px";
+  subtitle.style.opacity = "0.8";
+  tempDiv.appendChild(subtitle);
+
   // rankings
   const list = document.createElement("div");
   list.style.marginTop = "20px";
@@ -282,6 +290,7 @@ start();
 
 </body>
 </html>
+
 
 
 
