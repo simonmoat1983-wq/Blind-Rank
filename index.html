@@ -83,7 +83,9 @@ cursor:pointer;
 
 <script>
 
-let allnames = [
+let games = {
+
+work: [
 "Matty Wright",
 "David Jones",
 "Jack Cochrane",
@@ -106,7 +108,44 @@ let allnames = [
 "Alan Reddy",
 "Andrew Toes",
 "George Smith"
-];
+],
+
+football: [
+"Messi",
+"Ronaldo",
+"Haaland",
+"Mbappe",
+"Salah",
+"Kane",
+"Bellingham",
+"De Bruyne",
+"Saka",
+"Vinicius",
+"Neymar",
+"Rodri",
+"Foden",
+"Pedri",
+"Musiala"
+],
+
+movies: [
+"The Godfather",
+"Goodfellas",
+"Jaws",
+"Pulp Fiction",
+"Star Wars",
+"The Dark Knight",
+"Inception",
+"Gladiator",
+"Jurassic Park",
+"Casino"
+]
+
+};
+
+let params = new URLSearchParams(window.location.search);
+let gameType = params.get("game") || "work";
+let allnames = games[gameType] || games["work"];
 
 let names = []; // this will hold the 10 random names
 let shuffled = [];
@@ -183,6 +222,7 @@ start();
 
 </body>
 </html>
+
 
 
 
