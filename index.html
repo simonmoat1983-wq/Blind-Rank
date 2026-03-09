@@ -86,7 +86,10 @@ cursor:pointer;
 <div id="progress"></div>
 
 <button onclick="restart()">Restart</button>
+<button onclick="shareResult()">Share Result</button>
 
+<script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
+  
 <script>
 
 let games = {
@@ -152,9 +155,13 @@ movies: [
 let params = new URLSearchParams(window.location.search);
 let gameType = params.get("game") || "work";
 let allnames = games[gameType] || games["work"];
+let gameTitles = {
+  work: "RMS Hunks",
+  football: "Football Legends",
+  movies: "Movie Classics"
+};
 
-document.querySelector("h1").innerText =
-"Blind Rank " + gameType.charAt(0).toUpperCase() + gameType.slice(1);
+document.querySelector("h1").innerText = gameTitles[gameType] || "Blind Rank Game";
 
 let names = []; // this will hold the 10 random names
 let shuffled = [];
@@ -221,16 +228,61 @@ function showResults() {
   document.getElementById("progress").innerText = "Finished";
 }
 
+function shareResult() {
+  // create a temporary hidden div
+  const tempDiv = document.createElement("div");
+  tempDiv.style.position = "absolute";
+  tempDiv.style.left = "-9999px"; // hide off-screen
+  tempDiv.style.background = "#1e3c72";
+  tempDiv.style.color = "white";
+  tempDiv.style.padding = "30px";
+  tempDiv.style.borderRadius = "15px";
+  tempDiv.style.fontFamily = "Arial, sans-serif";
+  tempDiv.style.textAlign = "center";
+  tempDiv.style.width = "400px";
+
+  // title
+  const title = document.createElement("h2");
+  title.innerText = "🏆 BLIND RANK RESULTS";
+  tempDiv.appendChild(title);
+
+  // rankings
+  const list = document.createElement("div");
+  list.style.marginTop = "20px";
+  list.style.fontSize = "20px";
+
+  for (let i = 1; i <= names.length; i++) {
+    const item = document.createElement("div");
+    const emoji = i === 10 ? "🔟" : i + "️⃣"; // emojis 1️⃣…10️⃣
+    item.innerText = `${emoji} ${rankings[i] || ""}`;
+    item.style.margin = "5px 0";
+    list.appendChild(item);
+  }
+
+  tempDiv.appendChild(list);
+  document.body.appendChild(tempDiv);
+
+  // convert to image and download
+  html2canvas(tempDiv).then(canvas => {
+    const link = document.createElement("a");
+    link.download = "blind-rank-result.png";
+    link.href = canvas.toDataURL();
+    link.click();
+    tempDiv.remove(); // remove temporary div
+  });
+} // <-- close shareResult properly here
+
+// restart function (separate)
 function restart() {
   start();
 }
-
 start();
 
 </script>
 
 </body>
 </html>
+
 
 
 
