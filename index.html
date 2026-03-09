@@ -3,65 +3,65 @@
 <head>
 <meta charset="UTF-8">
 <title>Blind Rank Game</title>
-
 <script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
 
 <style>
-body{
+body {
   font-family: Arial, sans-serif;
-  background: linear-gradient(135deg,#0b1d51,#001f3f);
+  background: linear-gradient(135deg,#000014,#001a26,#0a0020,#001a26);
+  color: #00ffff; /* cyan accent for general text */
+  text-align: center;
+  margin: 0;
+  padding: 30px;
   background-size: 400% 400%;
-  animation: gradientBG 15s ease infinite;
-  color: #ffd700; /* gold */
-  text-align:center;
-  margin:0;
-  padding:30px;
+  animation: gradientBG 20s ease infinite;
 }
 
 @keyframes gradientBG {
-  0%{background-position:0% 50%}
-  50%{background-position:100% 50%}
-  100%{background-position:0% 50%}
+  0% {background-position:0% 50%}
+  50% {background-position:100% 50%}
+  100% {background-position:0% 50%}
 }
 
-h1{
+h1 {
   font-size: 36px;
-  margin-bottom:15px;
-  text-shadow: 2px 2px 4px rgba(0,0,0,0.6);
+  margin-bottom: 15px;
+  color: #ff77ff; /* pink accent for the title */
+  text-shadow: 2px 2px 5px rgba(0,0,0,0.7);
 }
 
 .game-buttons a {
-  margin:5px;
+  margin: 5px;
 }
 
-button{
-  margin:10px;
-  padding:12px 25px;
-  font-size:18px;
-  border:none;
-  border-radius:12px;
-  cursor:pointer;
-  background: linear-gradient(45deg,#ffd700,#bfa12f);
-  color:#001f3f;
-  font-weight:bold;
+button {
+  margin: 10px;
+  padding: 12px 25px;
+  font-size: 18px;
+  border: none;
+  border-radius: 12px;
+  cursor: pointer;
+  background: linear-gradient(45deg, #00ffff, #ff77ff);
+  color: #001a26;
+  font-weight: bold;
   transition: all 0.2s;
 }
 
-button:hover{
+button:hover {
   transform: scale(1.05);
-  box-shadow: 0 8px 20px rgba(0,0,0,0.4);
+  box-shadow: 0 8px 20px rgba(0,0,0,0.5);
 }
 
-#card{
-  background: linear-gradient(135deg,#001f3f,#0b1d51);
-  color:#ffd700;
-  padding:40px;
-  border-radius:20px;
-  font-size:28px;
-  margin:20px auto;
-  width:350px;
-  box-shadow:0 15px 30px rgba(0,0,0,0.5);
-  text-shadow: 1px 1px 2px rgba(0,0,0,0.6);
+#card {
+  background: white;
+  color: #001a26;
+  padding: 40px;
+  border-radius: 20px;
+  font-size: 28px;
+  margin: 20px auto;
+  width: 350px;
+  box-shadow: 0 15px 30px rgba(0,0,0,0.5);
+  text-shadow: none;
   transition: transform 0.2s;
 }
 
@@ -69,41 +69,44 @@ button:hover{
   transform: scale(1.05);
 }
 
-#rankings{
-  display:grid;
-  grid-template-columns:repeat(2,150px);
-  gap:10px;
-  justify-content:center;
-  margin-top:20px;
+#rankings {
+  display: grid;
+  grid-template-columns: repeat(2, 150px);
+  gap: 10px;
+  justify-content: center;
+  margin-top: 20px;
 }
 
-.slot{
-  background: rgba(255,215,0,0.1);
-  border:2px dashed rgba(255,215,0,0.4);
-  padding:15px;
-  border-radius:12px;
-  cursor:pointer;
+.slot {
+  background: white;
+  color: #001a26;
+  border: 2px dashed #001a26;
+  padding: 15px;
+  border-radius: 12px;
+  cursor: pointer;
+  font-weight: bold;
   transition: all 0.2s;
-  font-weight:bold;
+  text-align: center;
 }
 
 .slot:hover {
-  background: rgba(255,215,0,0.25);
+  background: #00ffff;
+  color: #001a26;
   transform: scale(1.05);
 }
 
-.slot.filled{
-  background: #ffd700;
-  border:none;
-  color:#001f3f;
-  font-weight:bold;
+.slot.filled {
+  background: #ff77ff;
+  color: white;
+  border: none;
   box-shadow: 0 5px 15px rgba(0,0,0,0.5);
 }
 
-#progress{
-  margin-top:15px;
-  opacity:0.9;
-  font-size:18px;
+#progress {
+  margin-top: 15px;
+  opacity: 0.9;
+  font-size: 18px;
+  color: #00ffff;
 }
 </style>
 </head>
@@ -129,24 +132,9 @@ button:hover{
 
 <script>
 let games = {
-  work: [
-    "Matty Wright","David Jones","Jack Cochrane","Peter Clark","James Reay",
-    "Brian Johnson","Kevin Stobbart","Matthew Scott","Bruce Walker","Tony Jiminez",
-    "Michael Storey","Jack Raine","Alistair Bowman","Ash Bughio","Jamie Duprey",
-    "Mark Lynskey","Michael Fox","Gordon Bird","Chris Fairbairn","Alan Reddy",
-    "Andrew Toes","George Smith"
-  ],
-
-  tvshows: [
-    "Breaking Bad","Stranger Things","The Office","Game of Thrones",
-    "Friends","The Mandalorian","Sherlock","Westworld","Loki","Peaky Blinders",
-    "Rick and Morty","The Crown","WandaVision","Seinfeld","The Simpsons"
-  ],
-
-  movies: [
-    "The Godfather","Goodfellas","Jaws","Pulp Fiction","Star Wars",
-    "The Dark Knight","Inception","Gladiator","Jurassic Park","Casino"
-  ]
+  work: ["Matty Wright","David Jones","Jack Cochrane","Peter Clark","James Reay","Brian Johnson","Kevin Stobbart","Matthew Scott","Bruce Walker","Tony Jiminez","Michael Storey","Jack Raine","Alistair Bowman","Ash Bughio","Jamie Duprey","Mark Lynskey","Michael Fox","Gordon Bird","Chris Fairbairn","Alan Reddy","Andrew Toes","George Smith"],
+  tvshows: ["Breaking Bad","Stranger Things","The Office","Game of Thrones","Friends","The Mandalorian","Sherlock","Westworld","Loki","Peaky Blinders","Rick and Morty","The Crown","WandaVision","Seinfeld","The Simpsons"],
+  movies: ["The Godfather","Goodfellas","Jaws","Pulp Fiction","Star Wars","The Dark Knight","Inception","Gladiator","Jurassic Park","Casino"]
 };
 
 let gameTitles = {
@@ -165,113 +153,98 @@ let shuffled = [];
 let current = 0;
 let rankings = {};
 
-function getRandomNames(list, count) {
-  let shuffled = [...list].sort(() => Math.random() - 0.5);
-  return shuffled.slice(0, count);
-}
+function getRandomNames(list,count){return [...list].sort(()=>Math.random()-0.5).slice(0,count);}
+function shuffle(array){return array.sort(()=>Math.random()-0.5);}
 
-function shuffle(array) {
-  return array.sort(() => Math.random() - 0.5);
-}
-
-function start() {
-  names = getRandomNames(allnames, 10);
-  shuffled = [...names].sort(() => Math.random() - 0.5);
-  current = 0;
-  rankings = {};
+function start(){
+  names = getRandomNames(allnames,10);
+  shuffled = [...names].sort(()=>Math.random()-0.5);
+  current=0;
+  rankings={};
   renderSlots();
   showName();
 }
 
-function renderSlots() {
-  let html = "";
-  for (let i = 1; i <= names.length; i++) {
-    html += `<div class="slot" id="slot${i}" onclick="rank(${i})">${i}</div>`;
+function renderSlots(){
+  let html="";
+  for(let i=1;i<=names.length;i++){
+    html+=`<div class="slot" id="slot${i}" onclick="rank(${i})">${i}</div>`;
   }
-  document.getElementById("rankings").innerHTML = html;
+  document.getElementById("rankings").innerHTML=html;
 }
 
-function showName() {
-  if (current >= shuffled.length) {
-    showResults();
-    return;
-  }
-  document.getElementById("card").innerText = shuffled[current];
-  document.getElementById("progress").innerText = `Name ${current+1} of ${names.length}`;
+function showName(){
+  if(current>=shuffled.length){showResults();return;}
+  document.getElementById("card").innerText=shuffled[current];
+  document.getElementById("progress").innerText=`Name ${current+1} of ${names.length}`;
 }
 
-function rank(position) {
+function rank(position){
   if(rankings[position]) return;
-  let name = shuffled[current];
-  rankings[position] = name;
-  let slot = document.getElementById("slot"+position);
+  let name=shuffled[current];
+  rankings[position]=name;
+  let slot=document.getElementById("slot"+position);
   slot.classList.add("filled");
-  slot.innerText = position + ". " + name;
+  slot.innerText=position+". "+name;
   current++;
   showName();
 }
 
-function showResults() {
-  document.getElementById("card").innerText = "Final Ranking";
-  let slots = document.querySelectorAll(".slot");
-  slots.forEach((slot,i)=>{
-    let pos = i+1;
-    slot.innerText = pos + ". " + rankings[pos];
+function showResults(){
+  document.getElementById("card").innerText="Final Ranking";
+  document.querySelectorAll(".slot").forEach((slot,i)=>{
+    let pos=i+1;
+    slot.innerText=pos+". "+rankings[pos];
   });
-  document.getElementById("progress").innerText = "Finished";
+  document.getElementById("progress").innerText="Finished";
 }
 
-function shareResult() {
-  const tempDiv = document.createElement("div");
+function shareResult(){
+  const tempDiv=document.createElement("div");
   tempDiv.style.position="absolute";
   tempDiv.style.left="-9999px";
-  tempDiv.style.background="linear-gradient(135deg,#001f3f,#0b1d51)";
-  tempDiv.style.color="#ffd700";
+  tempDiv.style.background="#001a26";
+  tempDiv.style.color="#00ffff";
   tempDiv.style.padding="30px";
   tempDiv.style.borderRadius="15px";
   tempDiv.style.fontFamily="Arial,sans-serif";
   tempDiv.style.textAlign="center";
   tempDiv.style.width="400px";
 
-  const title = document.createElement("h2");
+  const title=document.createElement("h2");
   title.innerText="🏆 BLIND RANK RESULTS";
   tempDiv.appendChild(title);
 
-  const subtitle = document.createElement("div");
-  subtitle.innerText = gameTitles[gameType] || gameType;
+  const subtitle=document.createElement("div");
+  subtitle.innerText=gameTitles[gameType]||gameType;
   subtitle.style.fontSize="18px";
   subtitle.style.marginTop="5px";
   subtitle.style.opacity="0.8";
   tempDiv.appendChild(subtitle);
 
-  const list = document.createElement("div");
+  const list=document.createElement("div");
   list.style.marginTop="20px";
   list.style.fontSize="20px";
-
   for(let i=1;i<=names.length;i++){
-    const item = document.createElement("div");
-    const emoji = i===10?"🔟":i+"️⃣";
-    item.innerText=`${emoji} ${rankings[i] || ""}`;
+    const item=document.createElement("div");
+    const emoji=i===10?"🔟":i+"️⃣";
+    item.innerText=`${emoji} ${rankings[i]||""}`;
     item.style.margin="5px 0";
     list.appendChild(item);
   }
-
   tempDiv.appendChild(list);
   document.body.appendChild(tempDiv);
 
   html2canvas(tempDiv).then(canvas=>{
-    const link = document.createElement("a");
+    const link=document.createElement("a");
     link.download="blind-rank-result.png";
-    link.href = canvas.toDataURL();
+    link.href=canvas.toDataURL();
     link.click();
     tempDiv.remove();
   });
 }
 
-function restart() {
-  start();
-}
-
+function restart(){start();}
 start();
 </script>
 </body>
