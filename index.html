@@ -2,173 +2,169 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Blind Rank Games</title>
+<title>Blind Rank Game</title>
+
+<script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
 
 <style>
-
 body{
-font-family: Arial, sans-serif;
-background: linear-gradient(135deg,#1e3c72,#2a5298);
-color:white;
-text-align:center;
-margin:0;
-padding:30px;
+  font-family: Arial, sans-serif;
+  background: linear-gradient(135deg,#0b1d51,#001f3f);
+  background-size: 400% 400%;
+  animation: gradientBG 15s ease infinite;
+  color: #ffd700; /* gold */
+  text-align:center;
+  margin:0;
+  padding:30px;
+}
+
+@keyframes gradientBG {
+  0%{background-position:0% 50%}
+  50%{background-position:100% 50%}
+  100%{background-position:0% 50%}
 }
 
 h1{
-margin-bottom:10px;
+  font-size: 36px;
+  margin-bottom:15px;
+  text-shadow: 2px 2px 4px rgba(0,0,0,0.6);
 }
 
-#card{
-background:white;
-color:black;
-padding:40px;
-border-radius:12px;
-font-size:28px;
-margin:20px auto;
-width:300px;
-box-shadow:0 10px 25px rgba(0,0,0,0.3);
-}
-
-#rankings{
-display:grid;
-grid-template-columns:repeat(2,150px);
-gap:10px;
-justify-content:center;
-margin-top:20px;
-}
-
-.slot{
-background:rgba(255,255,255,0.15);
-border:2px dashed rgba(255,255,255,0.5);
-padding:15px;
-border-radius:10px;
-cursor:pointer;
-}
-
-.slot.filled{
-background:#00c896;
-border:none;
-}
-
-#progress{
-margin-top:15px;
-opacity:0.8;
+.game-buttons a {
+  margin:5px;
 }
 
 button{
-margin-top:20px;
-padding:10px 20px;
-font-size:16px;
-border:none;
-border-radius:8px;
-cursor:pointer;
+  margin:10px;
+  padding:12px 25px;
+  font-size:18px;
+  border:none;
+  border-radius:12px;
+  cursor:pointer;
+  background: linear-gradient(45deg,#ffd700,#bfa12f);
+  color:#001f3f;
+  font-weight:bold;
+  transition: all 0.2s;
 }
 
+button:hover{
+  transform: scale(1.05);
+  box-shadow: 0 8px 20px rgba(0,0,0,0.4);
+}
+
+#card{
+  background: linear-gradient(135deg,#001f3f,#0b1d51);
+  color:#ffd700;
+  padding:40px;
+  border-radius:20px;
+  font-size:28px;
+  margin:20px auto;
+  width:350px;
+  box-shadow:0 15px 30px rgba(0,0,0,0.5);
+  text-shadow: 1px 1px 2px rgba(0,0,0,0.6);
+  transition: transform 0.2s;
+}
+
+#card:hover {
+  transform: scale(1.05);
+}
+
+#rankings{
+  display:grid;
+  grid-template-columns:repeat(2,150px);
+  gap:10px;
+  justify-content:center;
+  margin-top:20px;
+}
+
+.slot{
+  background: rgba(255,215,0,0.1);
+  border:2px dashed rgba(255,215,0,0.4);
+  padding:15px;
+  border-radius:12px;
+  cursor:pointer;
+  transition: all 0.2s;
+  font-weight:bold;
+}
+
+.slot:hover {
+  background: rgba(255,215,0,0.25);
+  transform: scale(1.05);
+}
+
+.slot.filled{
+  background: #ffd700;
+  border:none;
+  color:#001f3f;
+  font-weight:bold;
+  box-shadow: 0 5px 15px rgba(0,0,0,0.5);
+}
+
+#progress{
+  margin-top:15px;
+  opacity:0.9;
+  font-size:18px;
+}
 </style>
 </head>
 
 <body>
 
-<h1>Blind Rank Games</h1>
+<h1>Blind Rank Game</h1>
 
-<div style="margin-bottom:20px;">
-<a href="?game=work"><button>RMS Hunks</button></a>
-<a href="?game=football"><button>Football Game</button></a>
-<a href="?game=movies"><button>Movie Game</button></a>
+<div class="game-buttons">
+  <a href="?game=work"><button>RMS Hunks</button></a>
+  <a href="?game=tvshows"><button>TV Shows</button></a>
+  <a href="?game=movies"><button>Movie Classics</button></a>
 </div>
-<p>Rank each name of the sexy RMS men before seeing the next one</p>
+
+<p>Rank each name before seeing the next one</p>
 
 <div id="card"></div>
-
 <div id="rankings"></div>
-
 <div id="progress"></div>
 
 <button onclick="restart()">Restart</button>
 <button onclick="shareResult()">Share Result</button>
 
-<script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
-  
 <script>
-
 let games = {
+  work: [
+    "Matty Wright","David Jones","Jack Cochrane","Peter Clark","James Reay",
+    "Brian Johnson","Kevin Stobbart","Matthew Scott","Bruce Walker","Tony Jiminez",
+    "Michael Storey","Jack Raine","Alistair Bowman","Ash Bughio","Jamie Duprey",
+    "Mark Lynskey","Michael Fox","Gordon Bird","Chris Fairbairn","Alan Reddy",
+    "Andrew Toes","George Smith"
+  ],
 
-work: [
-"Matty Wright",
-"David Jones",
-"Jack Cochrane",
-"Peter Clark",
-"James Reay",
-"Brian Johnson",
-"Kevin Stobbart",
-"Matthew Scott",
-"Bruce Walker",
-"Tony Jiminez",
-"Michael Storey",
-"Jack Raine",
-"Alistair Bowman",
-"Ash Bughio",
-"Jamie Duprey",
-"Mark Lynskey",
-"Michael Fox",
-"Gordon Bird",
-"Chris Fairbairn",
-"Alan Reddy",
-"Andrew Toes",
-"George Smith"
-],
+  tvshows: [
+    "Breaking Bad","Stranger Things","The Office","Game of Thrones",
+    "Friends","The Mandalorian","Sherlock","Westworld","Loki","Peaky Blinders",
+    "Rick and Morty","The Crown","WandaVision","Seinfeld","The Simpsons"
+  ],
 
-football: [
-"Messi",
-"Ronaldo",
-"Haaland",
-"Mbappe",
-"Salah",
-"Kane",
-"Bellingham",
-"De Bruyne",
-"Saka",
-"Vinicius",
-"Neymar",
-"Rodri",
-"Foden",
-"Pedri",
-"Musiala"
-],
+  movies: [
+    "The Godfather","Goodfellas","Jaws","Pulp Fiction","Star Wars",
+    "The Dark Knight","Inception","Gladiator","Jurassic Park","Casino"
+  ]
+};
 
-movies: [
-"The Godfather",
-"Goodfellas",
-"Jaws",
-"Pulp Fiction",
-"Star Wars",
-"The Dark Knight",
-"Inception",
-"Gladiator",
-"Jurassic Park",
-"Casino"
-]
-
+let gameTitles = {
+  work: "RMS Hunks",
+  tvshows: "TV Show Legends",
+  movies: "Movie Classics"
 };
 
 let params = new URLSearchParams(window.location.search);
 let gameType = params.get("game") || "work";
 let allnames = games[gameType] || games["work"];
-let gameTitles = {
-  work: "RMS Hunks",
-  football: "Football Legends",
-  movies: "Movie Classics"
-};
-
 document.querySelector("h1").innerText = gameTitles[gameType] || "Blind Rank Game";
 
-let names = []; // this will hold the 10 random names
+let names = [];
 let shuffled = [];
 let current = 0;
 let rankings = {};
 
-// pick random 10 names
 function getRandomNames(list, count) {
   let shuffled = [...list].sort(() => Math.random() - 0.5);
   return shuffled.slice(0, count);
@@ -179,7 +175,7 @@ function shuffle(array) {
 }
 
 function start() {
-  names = getRandomNames(allnames, 10); // use correct variable name
+  names = getRandomNames(allnames, 10);
   shuffled = [...names].sort(() => Math.random() - 0.5);
   current = 0;
   rankings = {};
@@ -190,9 +186,7 @@ function start() {
 function renderSlots() {
   let html = "";
   for (let i = 1; i <= names.length; i++) {
-    html += `<div class="slot" id="slot${i}" onclick="rank(${i})">
-    ${i}
-    </div>`;
+    html += `<div class="slot" id="slot${i}" onclick="rank(${i})">${i}</div>`;
   }
   document.getElementById("rankings").innerHTML = html;
 }
@@ -203,15 +197,14 @@ function showName() {
     return;
   }
   document.getElementById("card").innerText = shuffled[current];
-  document.getElementById("progress").innerText =
-    `Name ${current + 1} of ${names.length}`;
+  document.getElementById("progress").innerText = `Name ${current+1} of ${names.length}`;
 }
 
 function rank(position) {
-  if (rankings[position]) return;
+  if(rankings[position]) return;
   let name = shuffled[current];
   rankings[position] = name;
-  let slot = document.getElementById("slot" + position);
+  let slot = document.getElementById("slot"+position);
   slot.classList.add("filled");
   slot.innerText = position + ". " + name;
   current++;
@@ -221,86 +214,65 @@ function rank(position) {
 function showResults() {
   document.getElementById("card").innerText = "Final Ranking";
   let slots = document.querySelectorAll(".slot");
-  slots.forEach((slot, i) => {
-    let pos = i + 1;
+  slots.forEach((slot,i)=>{
+    let pos = i+1;
     slot.innerText = pos + ". " + rankings[pos];
   });
   document.getElementById("progress").innerText = "Finished";
 }
 
 function shareResult() {
-  // create a temporary hidden div
   const tempDiv = document.createElement("div");
-  tempDiv.style.position = "absolute";
-  tempDiv.style.left = "-9999px"; // hide off-screen
-  tempDiv.style.background = "#1e3c72";
-  tempDiv.style.color = "white";
-  tempDiv.style.padding = "30px";
-  tempDiv.style.borderRadius = "15px";
-  tempDiv.style.fontFamily = "Arial, sans-serif";
-  tempDiv.style.textAlign = "center";
-  tempDiv.style.width = "400px";
+  tempDiv.style.position="absolute";
+  tempDiv.style.left="-9999px";
+  tempDiv.style.background="linear-gradient(135deg,#001f3f,#0b1d51)";
+  tempDiv.style.color="#ffd700";
+  tempDiv.style.padding="30px";
+  tempDiv.style.borderRadius="15px";
+  tempDiv.style.fontFamily="Arial,sans-serif";
+  tempDiv.style.textAlign="center";
+  tempDiv.style.width="400px";
 
-  // title
   const title = document.createElement("h2");
-  title.innerText = "🏆 BLIND RANK RESULTS";
+  title.innerText="🏆 BLIND RANK RESULTS";
   tempDiv.appendChild(title);
 
-  // add game type under title
   const subtitle = document.createElement("div");
-  subtitle.innerText = gameTitles[gameType] || gameType; // e.g., Football Legends
-  subtitle.style.fontSize = "18px";
-  subtitle.style.marginTop = "5px";
-  subtitle.style.opacity = "0.8";
+  subtitle.innerText = gameTitles[gameType] || gameType;
+  subtitle.style.fontSize="18px";
+  subtitle.style.marginTop="5px";
+  subtitle.style.opacity="0.8";
   tempDiv.appendChild(subtitle);
 
-  // rankings
   const list = document.createElement("div");
-  list.style.marginTop = "20px";
-  list.style.fontSize = "20px";
+  list.style.marginTop="20px";
+  list.style.fontSize="20px";
 
-  for (let i = 1; i <= names.length; i++) {
+  for(let i=1;i<=names.length;i++){
     const item = document.createElement("div");
-    const emoji = i === 10 ? "🔟" : i + "️⃣"; // emojis 1️⃣…10️⃣
-    item.innerText = `${emoji} ${rankings[i] || ""}`;
-    item.style.margin = "5px 0";
+    const emoji = i===10?"🔟":i+"️⃣";
+    item.innerText=`${emoji} ${rankings[i] || ""}`;
+    item.style.margin="5px 0";
     list.appendChild(item);
   }
 
   tempDiv.appendChild(list);
   document.body.appendChild(tempDiv);
 
-  // convert to image and download
-  html2canvas(tempDiv).then(canvas => {
+  html2canvas(tempDiv).then(canvas=>{
     const link = document.createElement("a");
-    link.download = "blind-rank-result.png";
+    link.download="blind-rank-result.png";
     link.href = canvas.toDataURL();
     link.click();
-    tempDiv.remove(); // remove temporary div
+    tempDiv.remove();
   });
-} // <-- close shareResult properly here
+}
 
-// restart function (separate)
 function restart() {
   start();
 }
+
 start();
-
 </script>
-
 </body>
 </html>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
